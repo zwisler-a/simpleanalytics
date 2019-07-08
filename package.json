@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "nodemon",
-    "build": "rimraf dist && tsc && copyfiles package.json dist/"
+    "build": "rimraf dist && tsc && copyfiles package.json dist/ && copyfiles src/sa/** dist/ -u 1"
   },
   "author": "Zwisler",
   "license": "ISC",

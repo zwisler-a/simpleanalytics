@@ -12,13 +12,14 @@ import { Config } from './config.interface';
 const cookieParser = require('cookie-parser');
 const cors = require('cors');
 const config: Config = require('./config.json');
+const path = require('path');
 
 @Server({
   debug: config.debug,
   port: config.port,
   providers: [OrmService, WebsiteService, EventService],
   resolve: ServerInit,
-  staticPath: ['./src/sa'],
+  staticPath: [path.join(__dirname, './sa')],
   middleware: [cors(), cookieParser(), generateTrackingCookie],
   routes: [WebsiteRoute, EventRoute]
 })
