@@ -19,4 +19,4 @@ deploy:
     - chmod 600 ~/.ssh/id_dsa
     - echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config
     - rsync -O -rav dist/ $SSH_USER@$DEPLOY_SERVER:$DEPLOY_PATH
-    - ssh $SSH_USER@$DEPLOY_SERVER "cd $DEPLOY_PATH && npm i && node main.js"
+    - ssh $SSH_USER@$DEPLOY_SERVER "cd $DEPLOY_PATH && npm i"
