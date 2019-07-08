@@ -1,4 +1,4 @@
-build site:
+build:
   image: node:latest
   stage: build
   script:
