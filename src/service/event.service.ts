@@ -13,18 +13,30 @@ export class EventService {
   constructor(private ormService: OrmService, private websiteService: WebsiteService) {
     this.eventRepo = this.ormService.connection.getRepository(TrackingEvent);
   }
-  async create(websiteId: number, name: string, owner: string) {
+  async create(websiteId: string, name: string, owner: string, data = '') {
     const website = await this.websiteService.getById(websiteId);
     if (!website) throw new BridgeError(404, 'Website not found!');
-    const event = new TrackingEvent(name, owner, website);
+    const event = new TrackingEvent(name, owner, data, website);
     this.eventRepo.save(event);
   }
 
-  async getByWebsite(websiteId: number) {
+  async getByWebsite(websiteId: string) {
     return await this.eventRepo.find({ where: { website: websiteId } });
   }
 
-  async eventCountByVisitor(websiteId: number) {
+  getEvents(websiteId: string, event: string): Promise<TrackingEvent[]> {
+    return this.eventRepo.find({ where: { website: websiteId, name: event } });
+  }
+
+  async getUniqueVisiors(websiteId: string) {
+    return (await this.eventRepo
+      .createQueryBuilder()
+      .select('DISTINCT owner')
+      .where({ website: websiteId })
+      .getRawMany()).length;
+  }
+
+  async eventCountByVisitor(websiteId: string) {
     const a = this.eventRepo
       .createQueryBuilder()
       .select('COUNT(*) as EventCount, TrackingEvent.owner as Visitor')

@@ -8,7 +8,7 @@ export class WebsiteRoute {
 
   @Endpoint({ method: 'POST' })
   async create(name: string) {
-    await this.websiteService.create(name);
+    return await this.websiteService.create(name);
   }
 
   @Endpoint()

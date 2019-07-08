@@ -3,11 +3,11 @@ import { TrackingEvent } from './event.model';
 
 @Entity()
 export class Website {
-  @PrimaryGeneratedColumn()
-  id: number;
+  @PrimaryGeneratedColumn('uuid')
+  id: string;
 
   @OneToMany(() => TrackingEvent, event => event.website)
-  events: TrackingEvent[];
+  events: TrackingEvent[]; 
 
   @Column()
   name: string;

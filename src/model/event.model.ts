@@ -15,10 +15,14 @@ export class TrackingEvent {
   @Column({ type: 'timestamp' })
   timestamp: Date;
 
+  @Column()
+  data: string;
+
   @ManyToOne(() => Website, website => website.events)
   website: Website;
 
-  constructor(name: string, owner: string, website: Website) {
+  constructor(name: string, owner: string, data: string, website: Website) {
+    this.data = data;
     this.name = name;
     this.owner = owner;
     this.website = website;

@@ -14,13 +14,19 @@ const cors = require('cors');
 const config: Config = require('./config.json');
 const path = require('path');
 
+const rateLimit = require('express-rate-limit');
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100 // limit each IP to 100 requests per windowMs
+});
+
 @Server({
   debug: config.debug,
   port: config.port,
   providers: [OrmService, WebsiteService, EventService],
   resolve: ServerInit,
   staticPath: [path.join(__dirname, './sa')],
-  middleware: [cors(), cookieParser(), generateTrackingCookie],
+  middleware: [limiter, cors(), cookieParser(), generateTrackingCookie],
   routes: [WebsiteRoute, EventRoute]
 })
 export class SaServer {}

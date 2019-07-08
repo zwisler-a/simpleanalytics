@@ -9,17 +9,17 @@ export class WebsiteService {
   constructor(private ormService: OrmService) {
     this.websiteRepo = this.ormService.connection.getRepository(Website);
   }
-  create(name: string) {
+  async create(name: string) {
     const ws = new Website();
     ws.name = name;
-    this.websiteRepo.save(ws); 
+    return await this.websiteRepo.save(ws);
   }
 
   getAll() {
     return this.websiteRepo.find();
   }
 
-  getById(websiteId: number): Promise<Website> {
+  getById(websiteId: string): Promise<Website> {
     return this.websiteRepo.findOne(websiteId);
   }
 }
