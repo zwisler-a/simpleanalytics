@@ -12,6 +12,9 @@ export class TrackingEvent {
   @Column()
   owner: string;
 
+  @Column()
+  ip: string;
+
   @Column({ type: 'timestamp' })
   timestamp: Date;
 
@@ -21,7 +24,8 @@ export class TrackingEvent {
   @ManyToOne(() => Website, website => website.events)
   website: Website;
 
-  constructor(name: string, owner: string, data: string, website: Website) {
+  constructor(name: string, owner: string, ip: string, data: string, website: Website) {
+    this.ip = ip;
     this.data = data;
     this.name = name;
     this.owner = owner;

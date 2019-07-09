@@ -8,8 +8,8 @@ export class EventRoute {
     constructor(private eventService: EventService) {}
 
     @Endpoint({ method: 'POST' })
-    async create(websiteId: string, name: string, @CustomParam('cookies') cookies) {
-        await this.eventService.create(websiteId, name, cookies.sa);
+    async create(websiteId: string, name: string, @CustomParam('cookies') cookies, @CustomParam('connection') connection) {
+        await this.eventService.create(websiteId, name, cookies.sa, connection.remoteAddress); 
     }
 
     @Endpoint({ method: 'GET' })

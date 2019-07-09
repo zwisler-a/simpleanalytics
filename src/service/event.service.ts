@@ -13,10 +13,10 @@ export class EventService {
     constructor(private ormService: OrmService, private websiteService: WebsiteService) {
         this.eventRepo = this.ormService.connection.getRepository(TrackingEvent);
     }
-    async create(websiteId: string, name: string, owner: string, data = '') {
+    async create(websiteId: string, name: string, owner: string, ip: string, data = '') {
         const website = await this.websiteService.getById(websiteId);
         if (!website) throw new BridgeError(404, 'Website not found!');
-        const event = new TrackingEvent(name, owner, data, website);
+        const event = new TrackingEvent(name, owner, ip, data, website);
         this.eventRepo.save(event);
     }
 
@@ -25,11 +25,12 @@ export class EventService {
     }
 
     getEventsPerDay(websiteId: string, eventName: string) {
-        return this.eventRepo.createQueryBuilder()
-        .select("DATE(timestamp) as Day, COUNT(id) as Events")
-        .where("websiteId = :websiteId AND name = :eventName", {websiteId, eventName})
-        .groupBy("DATE(timestamp)")
-        .getRawMany();
+        return this.eventRepo
+            .createQueryBuilder()
+            .select('DATE(timestamp) as Day, COUNT(id) as Events')
+            .where('websiteId = :websiteId AND name = :eventName', { websiteId, eventName })
+            .groupBy('DATE(timestamp)')
+            .getRawMany();
     }
 
     clearEvents(websiteId: string) {
