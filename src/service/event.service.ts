@@ -24,6 +24,14 @@ export class EventService {
         return await this.eventRepo.find({ where: { website: websiteId } });
     }
 
+    getEventsPerDay(websiteId: string, eventName: string) {
+        return this.eventRepo.createQueryBuilder()
+        .select("DATE(timestamp) as Day, COUNT(id) as Events")
+        .where("websiteId = :websiteId AND name = :eventName", {websiteId, eventName})
+        .groupBy("DATE(timestamp)")
+        .getRawMany();
+    }
+
     clearEvents(websiteId: string) {
         return this.eventRepo
             .createQueryBuilder()

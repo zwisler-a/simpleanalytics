@@ -28,6 +28,11 @@ export class EventRoute {
     }
 
     @Endpoint()
+    async eventsPerDay(websiteId: string, eventName: string) {
+        return this.eventService.getEventsPerDay(websiteId, eventName);
+    }
+
+    @Endpoint()
     async uniqueVisitors(websiteId: string) {
         return this.eventService.getUniqueVisiors(websiteId);
     }
