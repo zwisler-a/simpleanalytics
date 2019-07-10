@@ -8,9 +8,9 @@ import { OrmService } from './service/orm.service';
 import { WebsiteService } from './service/website.service';
 import { generateTrackingCookie } from './cookie.middleware';
 import { Config } from './config.interface';
+import { allowCrossDomain } from './cors.middleware';
 
 const cookieParser = require('cookie-parser');
-const cors = require('cors');
 const config: Config = require('./config.json');
 const path = require('path');
 
@@ -26,7 +26,7 @@ const limiter = rateLimit({
   providers: [OrmService, WebsiteService, EventService],
   resolve: ServerInit,
   staticPath: [path.join(__dirname, './sa')],
-  middleware: [limiter, cors({ credentials: true }), cookieParser(), generateTrackingCookie],
+  middleware: [limiter, allowCrossDomain, cookieParser(), generateTrackingCookie],
   routes: [WebsiteRoute, EventRoute]
 })
 export class SaServer {}

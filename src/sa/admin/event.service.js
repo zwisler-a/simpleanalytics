@@ -38,7 +38,7 @@ export class EventService {
     }
 
     clearEvents(websiteId){
-        return fetch(this._replaceQueryParams(this._api.eventsPerDay, { websiteId, eventName }))
+        return fetch(this._replaceQueryParams(this._api.eventsPerDay, { websiteId }))
             .then(res => res.json())
             .then(json => json.data);
     }

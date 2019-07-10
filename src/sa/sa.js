@@ -7,6 +7,7 @@ window.sa = (function() {
     fetch(reportingUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
+      credentials: 'include',
       body: JSON.stringify({ websiteId: websiteId, name: eventName })
     });
   };
