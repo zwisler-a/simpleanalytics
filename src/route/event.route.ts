@@ -8,15 +8,15 @@ export class EventRoute {
     constructor(private eventService: EventService) {}
 
     @Endpoint({ method: 'POST' })
-    async create(websiteId: string, name: string, @CustomParam('cookies') cookies, @CustomParam('connection') connection) {
-        await this.eventService.create(websiteId, name, cookies.sa, connection.remoteAddress); 
+    async create(websiteId: string, name: string, @CustomParam('cookies') cookies, @CustomParam('headers') headers, @CustomParam('connection') connection) {
+        await this.eventService.create(websiteId, name, cookies.sa, headers['x-forwarded-for'] || connection.remoteAddress); 
     }
 
     @Endpoint({ method: 'GET' })
     async get(websiteId: string) {
         return await this.eventService.getByWebsite(websiteId);
     }
-
+    
     @Endpoint()
     async clear(websiteId: string) {
         return this.eventService.clearEvents(websiteId);
