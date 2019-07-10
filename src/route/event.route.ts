@@ -1,5 +1,4 @@
-import { Endpoint, Route } from '@zwisler/bridge';
-import { CustomParam } from '@zwisler/bridge/core/decorators/custom-param.decorator';
+import { CustomParam, Endpoint, Route } from '@zwisler/bridge';
 
 import { EventService } from '../service/event.service';
 
