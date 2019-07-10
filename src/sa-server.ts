@@ -26,7 +26,7 @@ const limiter = rateLimit({
   providers: [OrmService, WebsiteService, EventService],
   resolve: ServerInit,
   staticPath: [path.join(__dirname, './sa')],
-  middleware: [limiter, cors(), cookieParser(), generateTrackingCookie],
+  middleware: [limiter, cors({ credentials: true }), cookieParser(), generateTrackingCookie],
   routes: [WebsiteRoute, EventRoute]
 })
 export class SaServer {}

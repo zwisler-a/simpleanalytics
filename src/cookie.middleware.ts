@@ -6,5 +6,5 @@ export function generateTrackingCookie(req, res, next) {
   if (cookie === undefined) {
     res.cookie('sa', uuidv1(), { maxAge: 900000, httpOnly: true });
   }
-  next(); // <-- important!
+  next();
 }
