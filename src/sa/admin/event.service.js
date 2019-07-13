@@ -14,6 +14,7 @@ export class EventService {
             clearEvents: '/event/clear?websiteId=:websiteId&eventName=:eventName',
             eventsPerDay: '/event/eventsPerDay?websiteId=:websiteId&eventName=:eventName'
         };
+        this._auth = AuthService.getInstance();
     }
 
     /**
@@ -28,13 +29,13 @@ export class EventService {
     }
 
     getUniqueVisiors(websiteId) {
-        return fetch(this._replaceQueryParams(this._api.uniqueVisitors, { websiteId }), { headers: { 'x-auth': AuthService._token } })
+        return fetch(this._replaceQueryParams(this._api.uniqueVisitors, { websiteId }), { headers: { 'x-auth': this._auth._token } })
             .then(res => res.json())
             .then(json => json.data);
     }
 
     getEventsPerDay(websiteId, eventName) {
-        return fetch(this._replaceQueryParams(this._api.eventsPerDay, { websiteId, eventName }), { headers: { 'x-auth': AuthService._token } })
+        return fetch(this._replaceQueryParams(this._api.eventsPerDay, { websiteId, eventName }), { headers: { 'x-auth': this._auth._token } })
             .then(res => res.json())
             .then(json => json.data);
     }

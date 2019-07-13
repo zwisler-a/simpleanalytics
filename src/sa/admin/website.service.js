@@ -11,11 +11,12 @@ export class WebsiteService {
             all: '/website/all',
             create: '/website/create'
         };
+        this._auth = AuthService.getInstance();
     }
 
     /** Fetch websites from BE */
     async getAll() {
-        const websites = await fetch(this._api.all, { headers: { 'x-auth': AuthService._token } })
+        const websites = await fetch(this._api.all, { headers: { 'x-auth': this._auth._token } })
             .then(res => res.json())
             .then(json => json.data);
         this._websites = websites;

@@ -1,5 +1,9 @@
 export class AuthService {
-    static _token;
+    static getInstance() {
+        if (this._instance) return this._instance;
+        return (this._instance = new AuthService());
+    }
+
     constructor() {
         this._urls = {
             getToken: 'https://auth.zwisler.dev/auth/getToken?signInToken=',
@@ -16,9 +20,9 @@ export class AuthService {
             .then(res => res.json())
             .then(res => {
                 if (res.error) return (window.location = this._urls.login);
-                AuthService._token = res.data;
+                this._token = res.data;
                 window.history.replaceState({}, document.title, '/' + 'admin.html');
-                return AuthService._token;
+                return this._token;
             });
     }
 
