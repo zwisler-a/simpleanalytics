@@ -1,5 +1,7 @@
 import { WebsiteView } from './website.view.js';
+import { AuthService } from './auth.sevice.js';
 
-(function() {
+(async function() {
+    await new AuthService().checkLogin();
     new WebsiteView('app-websites');
 })();

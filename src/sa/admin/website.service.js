@@ -13,7 +13,7 @@ export class WebsiteService {
 
     /** Fetch websites from BE */
     async getAll() {
-        const websites = await fetch(this._api.all)
+        const websites = await fetch(this._api.all, { headers: { 'x-auth': AuthService._token } })
             .then(res => res.json())
             .then(json => json.data);
         this._websites = websites;

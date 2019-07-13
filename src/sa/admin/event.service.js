@@ -1,3 +1,5 @@
+import { AuthService } from './auth.sevice';
+
 export class EventService {
     static getInstance() {
         if (this._instance) return this._instance;
@@ -26,19 +28,19 @@ export class EventService {
     }
 
     getUniqueVisiors(websiteId) {
-        return fetch(this._replaceQueryParams(this._api.uniqueVisitors, { websiteId }))
+        return fetch(this._replaceQueryParams(this._api.uniqueVisitors, { websiteId }), { headers: { 'x-auth': AuthService._token } })
             .then(res => res.json())
             .then(json => json.data);
     }
 
     getEventsPerDay(websiteId, eventName) {
-        return fetch(this._replaceQueryParams(this._api.eventsPerDay, { websiteId, eventName }))
+        return fetch(this._replaceQueryParams(this._api.eventsPerDay, { websiteId, eventName }), { headers: { 'x-auth': AuthService._token } })
             .then(res => res.json())
             .then(json => json.data);
     }
 
-    clearEvents(websiteId){
-        return fetch(this._replaceQueryParams(this._api.eventsPerDay, { websiteId }))
+    clearEvents(websiteId) {
+        return fetch(this._replaceQueryParams(this._api.eventsPerDay, { websiteId }), { headers: { 'x-auth': AuthService._token } })
             .then(res => res.json())
             .then(json => json.data);
     }

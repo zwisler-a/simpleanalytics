@@ -10,10 +10,11 @@
   "author": "Zwisler",
   "license": "ISC",
   "dependencies": {
-    "@zwisler/bridge": "^1.1.5",
+    "@zwisler/bridge": "^1.1.8",
     "cookie-parser": "^1.4.4",
     "cors": "^2.8.5",
     "express-rate-limit": "^5.0.0",
+    "jsonwebtoken": "^8.5.1",
     "mysql": "^2.17.1",
     "reflect-metadata": "^0.1.13",
     "typeorm": "^0.2.18",

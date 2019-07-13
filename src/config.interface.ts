@@ -11,4 +11,5 @@ export interface Config {
   };
   port: number;
   debug: boolean;
+  jwtSecret:string;
 }

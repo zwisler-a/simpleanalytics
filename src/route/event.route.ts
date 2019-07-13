@@ -1,6 +1,7 @@
 import { CustomParam, Endpoint, Route } from '@zwisler/bridge';
 
 import { EventService } from '../service/event.service';
+import { AuthService } from '../service/auth.service';
 
 @Route({ basePath: '/event' })
 export class EventRoute {
@@ -8,35 +9,35 @@ export class EventRoute {
 
     @Endpoint({ method: 'POST' })
     async create(websiteId: string, name: string, @CustomParam('cookies') cookies, @CustomParam('headers') headers, @CustomParam('connection') connection) {
-        await this.eventService.create(websiteId, name, cookies.sa, headers['x-forwarded-for'] || connection.remoteAddress); 
+        await this.eventService.create(websiteId, name, cookies.sa, headers['x-forwarded-for'] || connection.remoteAddress);
     }
 
-    @Endpoint({ method: 'GET' })
+    @Endpoint({ method: 'GET', middleware: [AuthService.authorize()] })
     async get(websiteId: string) {
         return await this.eventService.getByWebsite(websiteId);
     }
-    
-    @Endpoint()
+
+    @Endpoint({ middleware: [AuthService.authorize()] })
     async clear(websiteId: string) {
         return this.eventService.clearEvents(websiteId);
     }
 
-    @Endpoint()
+    @Endpoint({ middleware: [AuthService.authorize()] })
     async events(websiteId: string, eventName: string) {
         return this.eventService.getEvents(websiteId, eventName);
     }
 
-    @Endpoint()
+    @Endpoint({ middleware: [AuthService.authorize()] })
     async eventsPerDay(websiteId: string, eventName: string) {
         return this.eventService.getEventsPerDay(websiteId, eventName);
     }
 
-    @Endpoint()
+    @Endpoint({ middleware: [AuthService.authorize()] })
     async uniqueVisitors(websiteId: string) {
         return this.eventService.getUniqueVisiors(websiteId);
     }
 
-    @Endpoint({ method: 'GET' })
+    @Endpoint({ method: 'GET', middleware: [AuthService.authorize()] })
     async eventCountByVisitor(websiteId: string) {
         return await this.eventService.eventCountByVisitor(websiteId);
     }
