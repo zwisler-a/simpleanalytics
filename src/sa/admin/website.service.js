@@ -1,3 +1,5 @@
+import { AuthService } from './auth.sevice.js';
+
 export class WebsiteService {
     static getInstance() {
         if (this._instance) return this._instance;
