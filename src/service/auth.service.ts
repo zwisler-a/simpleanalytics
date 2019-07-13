@@ -7,7 +7,6 @@ export class AuthService {
 
     static authorize() {
         return (req, res, next) => {
-            console.log('checkauth');
             if (!this.secret) return next();
             const authHeader = req.header('x-auth');
             if (!authHeader) return res.status(401).send();

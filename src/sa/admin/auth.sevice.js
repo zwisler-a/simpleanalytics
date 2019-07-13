@@ -9,19 +9,19 @@ export class AuthService {
             getToken: 'https://auth.zwisler.dev/auth/getToken?signInToken=',
             login:
                 'https://auth.zwisler.dev/auth/login?redirect=' +
-                encodeURIComponent('http://localhost:3030/admin/index.html') +
+                encodeURIComponent('http://analytics.zwisler.dev/admin/index.html') +
                 '&realmId=' +
                 '33e39538-2f5a-4f57-8745-e34def1381f3'
         };
     }
 
     getToken(loginToken) {
-        fetch(this._urls.getToken + loginToken)
+        return fetch(this._urls.getToken + loginToken)
             .then(res => res.json())
             .then(res => {
                 if (res.error) return (window.location = this._urls.login);
                 this._token = res.data;
-                window.history.replaceState({}, document.title, '/' + 'admin.html');
+                window.history.replaceState({}, document.title, '/admin/' + 'index.html');
                 return this._token;
             });
     }
