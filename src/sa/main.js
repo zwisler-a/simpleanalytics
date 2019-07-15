@@ -1,4 +1,4 @@
-import { WebsiteView } from './component/website.view.js/index.js';
+import { WebsiteView } from './component/website.view.js';
 import { AuthService } from './service/auth.sevice.js';
 
 (async function() {
