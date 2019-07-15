@@ -1,5 +1,5 @@
 import { WebsiteService } from '../service/website.service.js';
-import { EventView } from './component/event.view.js';
+import { EventView } from './event.view.js';
 
 export class WebsiteView {
     constructor(selector) {
