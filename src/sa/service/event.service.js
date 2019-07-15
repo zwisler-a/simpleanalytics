@@ -1,4 +1,4 @@
-import { AuthService } from './auth.sevice.js';
+import { AuthService } from './service/auth.sevice.js/index.js';
 
 export class EventService {
     static getInstance() {
