@@ -1,23 +1,31 @@
 import { EventService } from '../service/event.service.js';
 import { WebsiteService } from '../service/website.service.js';
+import { EventBus } from '../service/event.bus.js';
+import { OPEN_WEBSITE } from '../util/events.js';
 
-export class EventView {
-    constructor(selector, websiteId) {
-        this._element = document.querySelector(selector);
-        if (!this._element) throw new Error('Cant find element!');
-        this._eventService = EventService.getInstance();
-        this._websiteService = WebsiteService.getInstance();
-        this._websiteId = websiteId;
-        Promise.all([this._loadGeneralInfo(), this._loadConfiguration()]).then(_ => this._update());
+export class EventView extends HTMLElement {
+    static get TAG() {
+        return 'sa-events';
     }
 
-    async _loadGeneralInfo() {
-        const [uniqueVisitors, website] = await Promise.all([this._eventService.getUniqueVisiors(this._websiteId), this._websiteService.get(this._websiteId)]);
+    constructor() {
+        super();
+        import('./graph.component.js');
+        this._eventService = EventService.getInstance();
+        this._websiteService = WebsiteService.getInstance();
+        this._eventBus = EventBus.getInstance();
+        this._eventBus.subscribe(OPEN_WEBSITE, payload => {
+            Promise.all([this._loadGeneralInfo(payload.id), this._loadConfiguration(payload.id)]).then(_ => this._update());
+        });
+    }
+
+    async _loadGeneralInfo(websiteId) {
+        const [uniqueVisitors, website] = await Promise.all([this._eventService.getUniqueVisiors(websiteId), this._websiteService.get(websiteId)]);
         this._generalInfo = document.createElement('div');
         this._generalInfo.innerHTML = `<h1>${website.name}</h1><h5>${website.id}</h5><div>Unique Visitors: ${uniqueVisitors}</div>`;
     }
 
-    async _loadConfiguration() {
+    async _loadConfiguration(websiteId) {
         this._configuration = document.createElement('div');
         this._configuration.classList.add('configuration');
 
@@ -28,14 +36,14 @@ export class EventView {
         const eventLoadBtn = document.createElement('button');
         eventLoadBtn.innerText = 'Lade events';
         eventLoadBtn.addEventListener('click', () => {
-            this._displayEvents(eventInput.value);
+            this._displayEvents(eventInput.value, websiteId);
         });
         this._configuration.appendChild(eventLoadBtn);
 
         const scriptLoadedPreset = document.createElement('button');
         scriptLoadedPreset.innerText = 'script_loaded';
         scriptLoadedPreset.addEventListener('click', () => {
-            this._displayEvents('script_loaded');
+            this._displayEvents('script_loaded', websiteId);
         });
         this._configuration.appendChild(scriptLoadedPreset);
 
@@ -47,30 +55,33 @@ export class EventView {
         clearEvents.innerText = 'Alle Events löschen';
         clearEvents.classList.add('warn');
         clearEvents.addEventListener('click', () => {
-            this._eventService.clearEvents(this._websiteId);
+            this._eventService.clearEvents(websiteId);
         });
         this._configuration.appendChild(clearEvents);
     }
 
-    async _displayEvents(eventName) {
-        const eventPerDay = await this._eventService.getEventsPerDay(this._websiteId, eventName);
+    async _displayEvents(eventName, websiteId) {
+        const eventPerDay = await this._eventService.getEventsPerDay(websiteId, eventName);
         this._events = document.createElement('div');
         this._events.classList.add('events-per-day');
         this._events.innerHTML = eventPerDay
             .map(day => `<span class="day"><div>${new Date(day.Day).toLocaleDateString()}</div><div>${day.Events}</div></span>`)
             .join('');
+
+        const graph = document.createElement('sa-graph');
+        graph.setData(eventPerDay.map(event => ({ label: event.Day, value: event.Events })));
+
+        this._events.appendChild(graph);
+
         this._update();
     }
 
     _update() {
-        this._element.innerHTML = '';
-        this._element.appendChild(this._generalInfo);
-        this._element.appendChild(this._configuration);
-        if (this._events) this._element.appendChild(this._events);
-    }
-
-    destroy() {
-        this._element.innerHTML = '';
-        this._element = undefined;
+        this.innerHTML = '';
+        this.appendChild(this._generalInfo);
+        this.appendChild(this._configuration);
+        if (this._events) this.appendChild(this._events);
     }
 }
+
+window.customElements.define(EventView.TAG, EventView);

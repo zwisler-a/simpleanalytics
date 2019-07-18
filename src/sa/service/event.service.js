@@ -1,4 +1,5 @@
 import { AuthService } from './auth.sevice.js';
+import { BASE_URL } from '../env/env.js';
 
 export class EventService {
     static getInstance() {
@@ -8,11 +9,11 @@ export class EventService {
 
     constructor() {
         this._api = {
-            all: '/event/get?websiteId=:websiteId',
-            uniqueVisitors: '/event/uniqueVisitors?websiteId=:websiteId',
-            events: '/event/events?websiteId=:websiteId&eventName=:eventName',
-            clearEvents: '/event/clear?websiteId=:websiteId&eventName=:eventName',
-            eventsPerDay: '/event/eventsPerDay?websiteId=:websiteId&eventName=:eventName'
+            all: BASE_URL + '/event/get?websiteId=:websiteId',
+            uniqueVisitors: BASE_URL + '/event/uniqueVisitors?websiteId=:websiteId',
+            events: BASE_URL + '/event/events?websiteId=:websiteId&eventName=:eventName',
+            clearEvents: BASE_URL + '/event/clear?websiteId=:websiteId&eventName=:eventName',
+            eventsPerDay: BASE_URL + '/event/eventsPerDay?websiteId=:websiteId&eventName=:eventName'
         };
         this._auth = AuthService.getInstance();
     }

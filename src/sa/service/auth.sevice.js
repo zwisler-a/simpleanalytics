@@ -1,3 +1,5 @@
+import { REDIRECT_URL } from '../env/env.js';
+
 export class AuthService {
     static getInstance() {
         if (this._instance) return this._instance;
@@ -7,11 +9,7 @@ export class AuthService {
     constructor() {
         this._urls = {
             getToken: 'https://auth.zwisler.dev/auth/getToken?signInToken=',
-            login:
-                'https://auth.zwisler.dev/auth/login?redirect=' +
-                encodeURIComponent('http://analytics.zwisler.dev') +
-                '&realmId=' +
-                '33e39538-2f5a-4f57-8745-e34def1381f3'
+            login: 'https://auth.zwisler.dev/auth/login?redirect=' + encodeURIComponent(REDIRECT_URL) + '&realmId=' + '33e39538-2f5a-4f57-8745-e34def1381f3'
         };
     }
 
