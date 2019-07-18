@@ -10,18 +10,15 @@ export class GraphComponent extends HTMLElement {
         this._paddingLeft = 30;
         this._paddingBottom = 25;
         this._canvas = document.createElement('canvas');
-        
         this._ctx = this._canvas.getContext('2d');
-    }
-
-    connectedCallback() {
-        this._canvas = document.createElement('canvas');
-        this._ctx = this._canvas.getContext('2d');
-        this.appendChild(this._canvas);
         this._canvas.style.width = '100%';
         this._canvas.style.height = '100%';
         this._canvas.height = this._height;
         this._canvas.width = this._width;
+    }
+
+    connectedCallback() {
+        this.appendChild(this._canvas);
     }
 
     /**
@@ -29,6 +26,7 @@ export class GraphComponent extends HTMLElement {
      * @param {*} dataPoints
      */
     setData(dataPoints) {
+        console.log(dataPoints);
         const maxY = this._getMaxYValue(dataPoints);
         this._drawAxis(this._getXLabels(dataPoints), maxY);
         this._drawData(dataPoints, maxY);
@@ -54,7 +52,7 @@ export class GraphComponent extends HTMLElement {
 
         data.forEach((dataPoint, idx) => {
             const xPos = this._paddingLeft + intervalX * idx + intervalX;
-            const yPos = this._height - intervalY * dataPoint.value - this._paddingBottom + (dataPoint.value ? intervalY : 0);
+            const yPos = this._height - intervalY * dataPoint.value - this._paddingBottom;
             this._ctx.lineTo(xPos, yPos);
             this._ctx.arc(xPos, yPos, 5, 0, 2 * Math.PI);
             this._ctx.moveTo(xPos, yPos);
@@ -82,6 +80,7 @@ export class GraphComponent extends HTMLElement {
         this._ctx.textBaseline = 'middle';
         xLabels.forEach((label, idx) => {
             const xPos = this._paddingLeft + interval * idx + interval;
+            console.log(xPos);
             this._ctx.moveTo(xPos, this._height - 25);
             this._ctx.lineTo(xPos, 10);
             this._ctx.fillText(label, xPos, this._height - this._paddingBottom / 2);
@@ -92,7 +91,7 @@ export class GraphComponent extends HTMLElement {
 
         const intervalY = (this._height - this._paddingBottom - 10) / (maxY / ySteps);
         this._ctx.strokeStyle = 'black';
-        [...new Array(maxY / ySteps)].forEach((label, idx) => {
+        [...new Array(maxY / ySteps + 1)].forEach((label, idx) => {
             const yPos = this._height - intervalY * idx - this._paddingBottom;
             this._ctx.moveTo(this._paddingLeft - 5, yPos);
             this._ctx.lineTo(this._paddingLeft + 5, yPos);

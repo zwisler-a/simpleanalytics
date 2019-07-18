@@ -69,11 +69,11 @@ export class EventView extends HTMLElement {
             .join('');
 
         const graph = document.createElement('sa-graph');
-        graph.setData(eventPerDay.map(event => ({ label: event.Day, value: event.Events })));
-
-        this._events.appendChild(graph);
-
+        
         this._update();
+        this.appendChild(graph);
+        graph.setData(eventPerDay.map(event => ({ label: event.Day, value: Number.parseInt(event.Events) })));
+
     }
 
     _update() {
