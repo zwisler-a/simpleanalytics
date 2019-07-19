@@ -26,7 +26,6 @@ export class GraphComponent extends HTMLElement {
      * @param {*} dataPoints
      */
     setData(dataPoints) {
-        console.log(dataPoints);
         const maxY = this._getMaxYValue(dataPoints);
         this._drawAxis(this._getXLabels(dataPoints), maxY);
         this._drawData(dataPoints, maxY);
@@ -44,14 +43,14 @@ export class GraphComponent extends HTMLElement {
 
     _drawData(data, maxY) {
         const ySteps = 1;
-        const intervalX = (this._width - this._paddingLeft) / (data.length + 1);
+        const intervalX = (this._width - this._paddingLeft) / data.length;
         const intervalY = (this._height - this._paddingBottom - 10) / (maxY / ySteps);
         this._ctx.strokeStyle = 'red';
         this._ctx.beginPath();
         this._ctx.moveTo(this._paddingLeft, this._height - this._paddingBottom);
 
         data.forEach((dataPoint, idx) => {
-            const xPos = this._paddingLeft + intervalX * idx + intervalX;
+            const xPos = this._paddingLeft + intervalX * idx;
             const yPos = this._height - intervalY * dataPoint.value - this._paddingBottom;
             this._ctx.lineTo(xPos, yPos);
             this._ctx.arc(xPos, yPos, 5, 0, 2 * Math.PI);
@@ -66,21 +65,14 @@ export class GraphComponent extends HTMLElement {
      * @param {number} maxY
      */
     _drawAxis(xLabels, maxY, ySteps = 1) {
-        const interval = (this._width - this._paddingLeft) / (xLabels.length + 1);
-        this._ctx.strokeStyle = 'black';
-        this._ctx.beginPath();
-        this._ctx.moveTo(this._paddingLeft, this._height - this._paddingBottom);
-        this._ctx.lineTo(this._paddingLeft, 10);
-        this._ctx.moveTo(this._paddingLeft, this._height - this._paddingBottom);
-        this._ctx.lineTo(this._width - interval / 2, this._height - this._paddingBottom);
-        this._ctx.stroke();
+        const interval = (this._width - this._paddingLeft) / xLabels.length;
+
         this._ctx.strokeStyle = 'lightgray';
         this._ctx.beginPath();
         this._ctx.textAlign = 'center';
         this._ctx.textBaseline = 'middle';
         xLabels.forEach((label, idx) => {
-            const xPos = this._paddingLeft + interval * idx + interval;
-            console.log(xPos);
+            const xPos = this._paddingLeft + interval * idx;
             this._ctx.moveTo(xPos, this._height - 25);
             this._ctx.lineTo(xPos, 10);
             this._ctx.fillText(label, xPos, this._height - this._paddingBottom / 2);
@@ -88,6 +80,14 @@ export class GraphComponent extends HTMLElement {
 
         this._ctx.stroke();
         this._ctx.beginPath();
+
+        this._ctx.strokeStyle = 'black';
+        this._ctx.beginPath();
+        this._ctx.moveTo(this._paddingLeft, this._height - this._paddingBottom);
+        this._ctx.lineTo(this._paddingLeft, 10);
+        this._ctx.moveTo(this._paddingLeft, this._height - this._paddingBottom);
+        this._ctx.lineTo(this._width - interval / 2, this._height - this._paddingBottom);
+        this._ctx.stroke();
 
         const intervalY = (this._height - this._paddingBottom - 10) / (maxY / ySteps);
         this._ctx.strokeStyle = 'black';

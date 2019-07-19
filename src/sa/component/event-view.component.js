@@ -61,7 +61,8 @@ export class EventView extends HTMLElement {
     }
 
     async _displayEvents(eventName, websiteId) {
-        const eventPerDay = await this._eventService.getEventsPerDay(websiteId, eventName);
+        let eventPerDay = await this._eventService.getEventsPerDay(websiteId, eventName);
+        eventPerDay = eventPerDay.slice(Math.max(eventPerDay.length - 7, 0));
         this._events = document.createElement('div');
         this._events.classList.add('events-per-day');
         this._events.innerHTML = eventPerDay
@@ -69,11 +70,14 @@ export class EventView extends HTMLElement {
             .join('');
 
         const graph = document.createElement('sa-graph');
-        
+
         this._update();
         this.appendChild(graph);
-        graph.setData(eventPerDay.map(event => ({ label: event.Day, value: Number.parseInt(event.Events) })));
-
+        const format = date => {
+            const d = new Date(date);
+            return d.toLocaleDateString();
+        };
+        graph.setData(eventPerDay.map(event => ({ label: format(event.Day), value: Number.parseInt(event.Events) })));
     }
 
     _update() {

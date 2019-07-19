@@ -18,7 +18,9 @@ export class WebsiteView extends HTMLElement {
     }
 
     onClick(event) {
-        const websiteId = event.target.closest('div').getAttribute('websiteId');
+        const closestDiv = event.target.closest('div');
+        if (!closestDiv) return;
+        const websiteId = closestDiv.getAttribute('websiteId');
         this._eventBus.dispatch(OPEN_WEBSITE, { id: websiteId });
     }
 
