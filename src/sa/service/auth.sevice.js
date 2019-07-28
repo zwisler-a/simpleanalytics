@@ -28,7 +28,6 @@ export class AuthService {
         const queryToken = this._getParameterByName('token');
         if (queryToken) return this.getToken(queryToken);
         window.location = this._urls.login;
-        return new Promise();
     }
 
     _getParameterByName(name, url) {
