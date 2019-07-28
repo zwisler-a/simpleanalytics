@@ -8,7 +8,13 @@ export class EventRoute {
     constructor(private eventService: EventService) {}
 
     @Endpoint({ method: 'POST' })
-    async create(websiteId: string, name: string, @CustomParam('cookies') cookies, @CustomParam('headers') headers, @CustomParam('connection') connection) {
+    async create(
+        websiteId: string,
+        name: string,
+        @CustomParam('cookies') cookies,
+        @CustomParam('headers') headers,
+        @CustomParam('connection') connection
+    ) {
         await this.eventService.create(websiteId, name, cookies.sa, headers['x-forwarded-for'] || connection.remoteAddress);
     }
 
@@ -20,6 +26,11 @@ export class EventRoute {
     @Endpoint({ middleware: [AuthService.authorize()] })
     async clear(websiteId: string) {
         return this.eventService.clearEvents(websiteId);
+    }
+
+    @Endpoint({ middleware: [AuthService.authorize()] })
+    async eventsOnWebsite(websiteId: string) {
+        return this.eventService.getAvailableEvents(websiteId);
     }
 
     @Endpoint({ middleware: [AuthService.authorize()] })

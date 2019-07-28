@@ -9,10 +9,13 @@ export class EventBus {
         this._log = [];
     }
 
-    dispatch(name, payload) {
+    async dispatch(name, payload) {
         this._log.push({ name, payload });
-        if (this._subscriptions[name]) {
-            this._subscriptions[name].forEach(sub => sub(payload));
+        const subscriptions = this._subscriptions[name];
+        if (subscriptions) {
+            for (let index = 0; index < subscriptions.length; index++) {
+                await subscriptions[index](payload);
+            }
         }
     }
 
@@ -23,5 +26,6 @@ export class EventBus {
     subscribe(eventName, onEvent) {
         if (!this._subscriptions[eventName]) this._subscriptions[eventName] = [];
         this._subscriptions[eventName].push(onEvent);
+        return this;
     }
 }

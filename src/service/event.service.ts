@@ -41,6 +41,14 @@ export class EventService {
             .execute();
     }
 
+    getAvailableEvents(websiteId: string) {
+        return this.eventRepo
+            .createQueryBuilder()
+            .select('DISTINCT name')
+            .where({ website: websiteId })
+            .getRawMany();
+    }
+
     getEvents(websiteId: string, event: string): Promise<TrackingEvent[]> {
         return this.eventRepo.find({ where: { website: websiteId, name: event } });
     }

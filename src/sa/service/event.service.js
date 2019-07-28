@@ -9,6 +9,7 @@ export class EventService {
 
     constructor() {
         this._api = {
+            eventsOnWebsite: BASE_URL + '/event/eventsOnWebsite?websiteId=:websiteId',
             all: BASE_URL + '/event/get?websiteId=:websiteId',
             uniqueVisitors: BASE_URL + '/event/uniqueVisitors?websiteId=:websiteId',
             events: BASE_URL + '/event/events?websiteId=:websiteId&eventName=:eventName',
@@ -29,6 +30,11 @@ export class EventService {
         return url;
     }
 
+    getAvailableEvents(websiteId) {
+        return fetch(this._replaceQueryParams(this._api.eventsOnWebsite, { websiteId }), { headers: { 'x-auth': this._auth._token } })
+            .then(res => res.json())
+            .then(json => json.data);
+    }
     getUniqueVisiors(websiteId) {
         return fetch(this._replaceQueryParams(this._api.uniqueVisitors, { websiteId }), { headers: { 'x-auth': this._auth._token } })
             .then(res => res.json())
