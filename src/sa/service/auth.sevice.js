@@ -8,8 +8,8 @@ export class AuthService {
 
     constructor() {
         this._urls = {
-            getToken: 'https://auth.zwisler.dev/auth/getToken?signInToken=',
-            login: 'https://auth.zwisler.dev/auth/login?redirect=' + encodeURIComponent(REDIRECT_URL) + '&realmId=' + '33e39538-2f5a-4f57-8745-e34def1381f3'
+            getToken: 'https://auth.zwisler.dev/api/auth/getToken?signInToken=',
+            login: 'https://auth.zwisler.dev/api/auth/login?redirect=' + encodeURIComponent(REDIRECT_URL) + '&realmId=' + '33e39538-2f5a-4f57-8745-e34def1381f3'
         };
     }
 
