@@ -8,8 +8,9 @@ export class WebsiteView extends HTMLElement {
         return 'sa-websites';
     }
 
-    constructor(selector) {
+    constructor() {
         super();
+        this.classList.add('navigation-list');
         this._websiteService = WebsiteService.getInstance();
         this._eventBus = EventBus.getInstance();
         this._eventView = null;

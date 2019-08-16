@@ -1,8 +1,14 @@
+import { EventBus } from '../service/event.bus.js';
+import { OPEN_WEBSITE, OPEN_EVENT } from '../util/events.js';
+
 export class SaComponent extends HTMLElement {
     constructor() {
         super();
         import('./website-list.component.js');
-        import('./event-view.component.js');
+
+        EventBus.getInstance()
+            .subscribe(OPEN_WEBSITE, () => import('./event-list.component.js'))
+            .subscribe(OPEN_EVENT, () => import('./event-view.component.js'));
     }
 
     static get TAG() {
@@ -11,8 +17,10 @@ export class SaComponent extends HTMLElement {
 
     connectedCallback() {
         const websiteList = document.createElement('sa-websites');
-        const eventView = document.createElement('sa-events');
+        const eventList = document.createElement('sa-events');
+        const eventView = document.createElement('sa-event-view');
         this.appendChild(websiteList);
+        this.appendChild(eventList);
         this.appendChild(eventView);
     }
 }
