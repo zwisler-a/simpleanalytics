@@ -32,7 +32,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: zwisler/simpleanalystics:${{ steps.tag.outputs.TAG }}
+          tags: zwisler/simpleanalytics:${{ steps.tag.outputs.TAG }}
 
       - name: Trigger n8n workflow
         run: |
