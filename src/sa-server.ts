@@ -22,6 +22,7 @@ const limiter = rateLimit({
 
 @Server({
   debug: config.debug,
+  host: '0.0.0.0',
   port: config.port,
   providers: [OrmService, WebsiteService, EventService],
   resolve: ServerInit,
