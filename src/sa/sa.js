@@ -2,7 +2,9 @@ window.sa = (function () {
     const script = document.currentScript;
     const websiteId = script.getAttribute('website');
     if (!websiteId) throw new Error('Website id not given');
-    const reportingUrl = script.src.replace('sa.js', 'event/create');
+
+    const customUrl = script.getAttribute('url');
+    const reportingUrl = customUrl || script.src.replace('sa.js', 'event/create');
 
     let trackingId = localStorage.getItem('sa_tracking_id');
     if (!trackingId) {
