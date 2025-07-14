@@ -15,7 +15,7 @@ export class TrackingEvent {
   @Column()
   ip: string;
 
-  @Column({ type: 'timestamp' })
+  @Column({ type: 'datetime' })
   timestamp: Date;
 
   @Column()

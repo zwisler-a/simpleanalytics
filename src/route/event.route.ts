@@ -11,11 +11,12 @@ export class EventRoute {
     async create(
         websiteId: string,
         name: string,
+        trackingId: string,
         @CustomParam('cookies') cookies,
         @CustomParam('headers') headers,
         @CustomParam('connection') connection
     ) {
-        await this.eventService.create(websiteId, name, cookies.sa, headers['x-forwarded-for'] || connection.remoteAddress);
+        await this.eventService.create(websiteId, name, cookies.sa || trackingId, headers['x-forwarded-for'] || connection.remoteAddress);
     }
 
     @Endpoint({ method: 'GET', middleware: [AuthService.authorize()] })

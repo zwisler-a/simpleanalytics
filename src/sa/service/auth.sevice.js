@@ -27,7 +27,7 @@ export class AuthService {
     async checkLogin() {
         const queryToken = this._getParameterByName('token');
         if (queryToken) return this.getToken(queryToken);
-        window.location = this._urls.login;
+        //window.location = this._urls.login;
     }
 
     _getParameterByName(name, url) {
