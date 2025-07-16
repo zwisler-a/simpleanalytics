@@ -27,6 +27,7 @@ const limiter = rateLimit({
   providers: [OrmService, WebsiteService, EventService],
   resolve: ServerInit,
   staticPath: [path.join(__dirname, './sa')],
+  basePath: 'api',
   middleware: [/*limiter,*/ allowCrossDomain, cookieParser(), generateTrackingCookie],
   routes: [WebsiteRoute, EventRoute]
 })

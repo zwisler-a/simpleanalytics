@@ -69,4 +69,16 @@ export class EventService {
             .groupBy('TrackingEvent.owner');
         return await a.getRawMany();
     }
+
+    async getUniqueEventsPerDay(websiteId: string, eventName: string) {
+        // This query groups by day and owner, then counts unique owners per day
+        // The subquery gets all (day, owner) pairs, then we count unique owners per day
+        return this.eventRepo
+            .createQueryBuilder()
+            .select('DATE(timestamp) as Day')
+            .addSelect('COUNT(DISTINCT owner) as UniqueEvents')
+            .where('websiteId = :websiteId AND name = :eventName', { websiteId, eventName })
+            .groupBy('DATE(timestamp)')
+            .getRawMany();
+    }
 }

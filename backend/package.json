@@ -1,0 +1,34 @@
+{
+  "name": "simpleanalytics",
+  "version": "1.0.0",
+  "description": "Simple Analytics Server",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon",
+    "build": "rimraf dist && tsc && copyfiles package.json dist/ && ncp src/sa dist/sa && ncp src/sa/env/prod.js dist/sa/env/env.js"
+  },
+  "author": "Zwisler",
+  "license": "ISC",
+  "dependencies": {
+    "@zwisler/bridge": "^1.1.8",
+    "cookie-parser": "^1.4.4",
+    "cors": "^2.8.5",
+    "express-rate-limit": "^5.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "mysql": "^2.17.1",
+    "reflect-metadata": "^0.1.13",
+    "sqlite": "^5.1.1",
+    "sqlite3": "^5.1.7",
+    "typeorm": "^0.2.18",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "@types/node": "^12.0.12",
+    "copyfiles": "^2.1.0",
+    "ncp": "^2.0.0",
+    "nodemon": "^1.19.1",
+    "rimraf": "^2.6.3",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.2"
+  }
+}

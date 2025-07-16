@@ -4,7 +4,7 @@ window.sa = (function () {
     if (!websiteId) throw new Error('Website id not given');
 
     const customUrl = script.getAttribute('url');
-    const reportingUrl = customUrl || script.src.replace('sa.js', 'event/create');
+    const reportingUrl = customUrl || script.src.replace('sa.js', '/api/event/create');
 
     let trackingId = localStorage.getItem('sa_tracking_id');
     if (!trackingId) {

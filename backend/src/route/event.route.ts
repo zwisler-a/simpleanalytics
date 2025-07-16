@@ -53,4 +53,9 @@ export class EventRoute {
     async eventCountByVisitor(websiteId: string) {
         return await this.eventService.eventCountByVisitor(websiteId);
     }
+
+    @Endpoint({ middleware: [AuthService.authorize()] })
+    async uniqueEventsPerDay(websiteId: string, eventName: string) {
+        return this.eventService.getUniqueEventsPerDay(websiteId, eventName);
+    }
 }
